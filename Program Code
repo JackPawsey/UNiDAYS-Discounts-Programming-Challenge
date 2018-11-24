@@ -1,0 +1,273 @@
+#include "pch.h"
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+const int NUMBEROFITEMS = 5;
+
+struct STRUCTpricelist
+{
+	string itemID;
+	double itemPrice;
+};
+
+class UnidaysDiscountChallenge
+{
+private:
+	double totalPrice;
+	double deliveryCharge;
+	vector<string> basket;
+	STRUCTpricelist Prices[NUMBEROFITEMS];
+
+public:
+	UnidaysDiscountChallenge(STRUCTpricelist PriceList[]);
+	~UnidaysDiscountChallenge();
+
+	void AddToBasket(string item);
+	void CalculateTotalPrice();
+	void CalculateDeliveryCharge();
+	void ViewBasket();
+	double GetTotalPrice();
+	double GetDeliveryCharge();
+
+	double CalculateItemATotal();
+	double CalculateItemBTotal();
+	double CalculateItemCTotal();
+	double CalculateItemDTotal();
+	double CalculateItemETotal();
+
+};
+
+UnidaysDiscountChallenge::UnidaysDiscountChallenge(STRUCTpricelist PriceList[])
+{
+	for (int i = 0; i < NUMBEROFITEMS; i++)
+	{
+		this->Prices[i] = PriceList[i];
+	}
+}
+
+UnidaysDiscountChallenge::~UnidaysDiscountChallenge()
+{
+}
+
+void UnidaysDiscountChallenge::AddToBasket(string item)
+{
+	basket.push_back(item);
+}
+
+void UnidaysDiscountChallenge::ViewBasket()
+{
+	for (unsigned int i = 0; i < basket.size(); i++)
+	{
+		cout << basket[i] << endl;
+	}
+}
+
+void UnidaysDiscountChallenge::CalculateTotalPrice()
+{
+	this->totalPrice = CalculateItemATotal() + CalculateItemBTotal() + CalculateItemCTotal() + CalculateItemDTotal() + CalculateItemETotal();
+}
+
+void UnidaysDiscountChallenge::CalculateDeliveryCharge()
+{
+	if (totalPrice >= 50.00)
+	{
+		this->deliveryCharge = 0.00;
+	}
+	else
+	{
+		this->deliveryCharge = 7.00 * basket.size();
+	}
+}
+
+double UnidaysDiscountChallenge::GetTotalPrice()
+{
+	return this->totalPrice;
+}
+
+double UnidaysDiscountChallenge::GetDeliveryCharge()
+{
+	return this->deliveryCharge;
+}
+
+double UnidaysDiscountChallenge::CalculateItemATotal()
+{
+	int NUMitemA = 0;
+	double itemATotalCost = 0.00;
+
+	for (unsigned int i = 0; i < basket.size(); i++)
+	{
+		if (basket[i] == "A")
+		{
+			NUMitemA++;
+		}
+	}
+
+	itemATotalCost = NUMitemA * this->Prices[0].itemPrice;
+
+	return itemATotalCost;
+}
+
+double UnidaysDiscountChallenge::CalculateItemBTotal()
+{
+	int NUMitemB = 0;
+	double itemBTotalCost = 0.00;
+
+	for (unsigned int i = 0; i < basket.size(); i++)
+	{
+		if (basket[i] == "B")
+		{
+			NUMitemB++;
+		}
+	}
+
+	if (NUMitemB == 0 || NUMitemB == 1)
+	{
+		itemBTotalCost = NUMitemB * this->Prices[1].itemPrice;
+	}
+	else if (NUMitemB % 2 == 0)
+	{
+		itemBTotalCost = (NUMitemB / 2) * 20.00;
+	}
+	else
+	{
+		itemBTotalCost = (NUMitemB / 2) * 20.00;
+		itemBTotalCost += this->Prices[1].itemPrice;
+	}
+
+	return itemBTotalCost;
+}
+
+double UnidaysDiscountChallenge::CalculateItemCTotal()
+{
+	int NUMitemC = 0;
+	double itemCTotalCost = 0.00;
+
+	for (unsigned int i = 0; i < basket.size(); i++)
+	{
+		if (basket[i] == "C")
+		{
+			NUMitemC++;
+		}
+	}
+
+	if (NUMitemC == 0 || NUMitemC == 1 || NUMitemC == 2)
+	{
+		itemCTotalCost = NUMitemC * this->Prices[2].itemPrice;
+	}
+	else if (NUMitemC % 3 == 0)
+	{
+		NUMitemC = NUMitemC / 3;
+
+		itemCTotalCost = NUMitemC * 10.00;
+	}
+	else if (NUMitemC % 3 == 1)
+	{
+		NUMitemC = NUMitemC / 3;
+		itemCTotalCost = (NUMitemC * 10.00) + this->Prices[2].itemPrice;
+	}
+	else if (NUMitemC % 3 == 2)
+	{
+		NUMitemC = NUMitemC / 3;
+		itemCTotalCost = (NUMitemC * 10.00) + (2 * this->Prices[2].itemPrice);
+	}
+
+	return itemCTotalCost;
+}
+
+double UnidaysDiscountChallenge::CalculateItemDTotal()
+{
+	int NUMitemD = 0;
+	double itemDTotalCost = 0.00;
+
+	for (unsigned int i = 0; i < basket.size(); i++)
+	{
+		if (basket[i] == "D")
+		{
+			NUMitemD++;
+		}
+	}
+
+	if (NUMitemD == 0 || NUMitemD == 1)
+	{
+	}
+	else if (NUMitemD % 2 == 0)
+	{
+		NUMitemD = NUMitemD / 2;
+	}
+	else
+	{
+		NUMitemD = (NUMitemD / 2) + 1;
+	}
+
+	itemDTotalCost = NUMitemD * this->Prices[3].itemPrice;
+
+	return itemDTotalCost;
+}
+
+double UnidaysDiscountChallenge::CalculateItemETotal()
+{
+	int NUMitemE = 0;
+	double itemETotalCost = 0.00;
+
+	for (unsigned int i = 0; i < basket.size(); i++)
+	{
+		if (basket[i] == "E")
+		{
+			NUMitemE++;
+		}
+	}
+
+	if (NUMitemE == 0 || NUMitemE == 1)
+	{
+	}
+	else if (NUMitemE == 3 || NUMitemE == 6 || NUMitemE == 9)
+	{
+		NUMitemE = NUMitemE - 1;
+	}
+
+	itemETotalCost = NUMitemE * this->Prices[4].itemPrice;
+
+	return itemETotalCost;
+}
+
+
+int main()
+{
+	STRUCTpricelist PriceList[NUMBEROFITEMS];
+
+	PriceList[0].itemID = "A";
+	PriceList[0].itemPrice = 8.00;
+	PriceList[1].itemID = "B";
+	PriceList[1].itemPrice = 12.00;
+	PriceList[2].itemID = "C";
+	PriceList[2].itemPrice = 4.00;
+	PriceList[3].itemID = "D";
+	PriceList[3].itemPrice = 7.00;
+	PriceList[4].itemID = "E";
+	PriceList[4].itemPrice = 5.00;
+
+	UnidaysDiscountChallenge example (PriceList);
+
+	example.AddToBasket("E");
+	example.AddToBasket("D");
+	example.AddToBasket("C");
+	example.AddToBasket("B");
+	example.AddToBasket("A");
+	example.AddToBasket("E");
+	example.AddToBasket("D");
+	example.AddToBasket("C");
+	example.AddToBasket("B");
+	example.AddToBasket("C");
+
+	example.ViewBasket();
+
+	example.CalculateTotalPrice();
+	example.CalculateDeliveryCharge();
+
+	cout << "The total price was: " << example.GetTotalPrice() << endl;
+	cout << "The delivery charge was: " << example.GetDeliveryCharge() << endl;
+	cout << "The total cost was: " << example.GetTotalPrice() + example.GetDeliveryCharge() << endl;
+}
